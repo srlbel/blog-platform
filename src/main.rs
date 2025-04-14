@@ -1,3 +1,8 @@
+mod models;
+mod repositories;
+mod schema;
+mod services;
+
 use actix_web::{App, HttpServer, middleware, web};
 use diesel::r2d2::{self, ConnectionManager};
 use diesel::sqlite::SqliteConnection;
