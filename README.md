@@ -8,4 +8,8 @@ To run:
 bun run dev
 ```
 
-open http://localhost:3000
+
+TODO:
+- Update controllers to being handled with Elysia
+- Add testing modules
+- Add pipelines
