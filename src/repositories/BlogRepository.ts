@@ -2,8 +2,9 @@ import { db } from "../db";
 import { blogs } from "../db/schema";
 import { eq } from 'drizzle-orm';
 import { Blog, NewBlog } from "../models/Blog";
+import { IRepository } from "../interfaces/IRepository";
 
-export class BlogRepository {
+export class BlogRepository implements IRepository<Blog, NewBlog> {
     async getAll(): Promise<Blog[]> {
         return db.select().from(blogs);
     }

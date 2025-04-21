@@ -1,7 +1,8 @@
 import { BlogRepository } from "../repositories/BlogRepository";
 import { Blog, NewBlog } from "../models/Blog";
+import { IService } from "../interfaces/IService";
 
-export class BlogService {
+export class BlogService implements IService<Blog, NewBlog> {
     constructor(private repo: BlogRepository) { }
 
     getAll(): Promise<Blog[]> {
