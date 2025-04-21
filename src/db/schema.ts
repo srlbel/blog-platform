@@ -6,6 +6,6 @@ export const blogs = sqliteTable('blogs', {
     description: text('description'),
     slug: text('slug').notNull().unique(),
     creator: text('creator').notNull(),
-    createdAt: text('created_at').notNull().$default(() => new Date().toDateString()),
-    updatedAt: text('updated_at').notNull().$default(() => new Date().toDateString()).$onUpdate(() => new Date().toDateString())
+    createdAt: text('created_at').notNull().$default(() => new Date().toISOString()),
+    updatedAt: text('updated_at').notNull().$default(() => new Date().toISOString()).$onUpdate(() => new Date().toISOString())
 })

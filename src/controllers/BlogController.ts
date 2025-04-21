@@ -1,142 +1,49 @@
-import { z } from '@hono/zod-openapi';
-import { OpenAPIHono, createRoute } from '@hono/zod-openapi';
+import { t } from 'elysia';
 import { BlogService } from '../services/BlogService';
+import { BlogRepository } from '../repositories/BlogRepository';
 
-const BlogResponse = z.object({
-    id: z.number(),
-    title: z.string(),
-    description: z.string().nullable(),
-    slug: z.string(),
-    creator: z.string(),
-    createdAt: z.string(),
-    updatedAt: z.string(),
-});
+const blogRepo = new BlogRepository();
+const blogService = new BlogService(blogRepo);
 
-const BlogInput = z.object({
-    title: z.string().min(1),
-    description: z.string().optional(),
-    slug: z.string().min(1),
-    creator: z.string().min(1),
-});
+export const blogController = {
+    getAll: async () => blogService.getAll(),
 
-export class BlogController {
-    constructor(private service: BlogService) { }
+    getOne: async ({ params }: { params: { id: string } }) => {
+        const blog = await blogService.getOne(Number(params.id));
+        return blog ?? { error: 'Not found' };
+    },
 
-    getRoutes() {
-        const app = new OpenAPIHono();
+    create: async ({ body }: { body: any }) => {
+        const blog = await blogService.create(body);
+        return blog;
+    },
 
-        app.openapi(
-            createRoute({
-                method: 'get',
-                path: '/',
-                summary: 'List all blogs',
-                responses: {
-                    200: {
-                        description: 'A list of blogs',
-                        content: {
-                            'application/json': {
-                                schema: z.array(BlogResponse),
-                            },
-                        },
-                    },
-                },
-            }),
-            async (c) => {
-                const blogs = await this.service.getAll();
-                return c.json(blogs);
-            }
-        );
+    delete: async ({ params }: { params: { id: string } }) => {
+        await blogService.delete(Number(params.id));
+        return new Response(null, { status: 204 });
+    },
 
-        app.openapi(
-            createRoute({
-                method: 'get',
-                path: '/{id}',
-                summary: 'Get a blog by ID',
-                request: {
-                    params: z.object({
-                        id: z.string(),
-                    }),
-                },
-                responses: {
-                    200: {
-                        description: 'Blog found',
-                        content: {
-                            'application/json': {
-                                schema: BlogResponse,
-                            },
-                        },
-                    },
-                    404: {
-                        description: 'Blog not found',
-                    },
-                },
-            }),
-            async (c) => {
-                const id = Number(c.req.valid('param').id);
-                const blog = await this.service.getOne(id);
-                if (!blog) return c.notFound();
-                return c.json(blog);
-            }
-        );
+    update: async ({ params, body }: { params: { id: string }, body: any }) => {
+        const blog = await blogService.update(Number(params.id), body);
+        if (!blog) return new Response(JSON.stringify({ error: 'Not found' }), { status: 404 });
 
-        app.openapi(
-            createRoute({
-                method: 'post',
-                path: '/',
-                summary: 'Create a new blog',
-                request: {
-                    body: {
-                        content: {
-                            'application/json': {
-                                schema: BlogInput,
-                            },
-                        },
-                    },
-                },
-                responses: {
-                    201: {
-                        description: 'Created blog',
-                        content: {
-                            'application/json': {
-                                schema: BlogResponse,
-                            },
-                        },
-                    },
-                    400: {
-                        description: 'Validation failed',
-                    },
-                },
-            }),
-            async (c) => {
-                const data = await c.req.valid('json');
-                const blog = await this.service.create(data);
-                return c.json(blog, 201);
-            }
-        );
+        return blog;
+    },
 
-        app.openapi(
-            createRoute({
-                method: 'delete',
-                path: '/{id}',
-                summary: 'Delete a blog by ID',
-                request: {
-                    params: z.object({
-                        id: z.string(),
-                    }),
-                },
-                responses: {
-                    204: {
-                        description: 'Deleted successfully',
-                    },
-                },
-            }),
-            async (c) => {
-                const id = Number(c.req.valid('param').id);
-                await this.service.delete(id);
-                return c.body(null, 204);
-            }
-        );
-
-        return app;
-    }
-}
+    schema: {
+        create: t.Object({
+            title: t.String(),
+            description: t.Optional(t.String()),
+            slug: t.String(),
+            creator: t.String(),
+        }),
+        update: t.Partial(
+            t.Object({
+                title: t.String(),
+                description: t.Optional(t.String()),
+                slug: t.String(),
+                creator: t.String(),
+            })
+        ),
+    },
+};

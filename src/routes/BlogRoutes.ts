@@ -1,10 +1,40 @@
-import { Hono } from "hono";
-import { BlogRepository } from "../repositories/BlogRepository";
-import { BlogService } from "../services/BlogService";
-import { BlogController } from "../controllers/BlogController";
+import { Elysia, t } from 'elysia';
+import { blogController } from '../controllers/BlogController';
 
-const repo = new BlogRepository();
-const service = new BlogService(repo);
-const controller = new BlogController(service);
-
-export default controller.getRoutes();
+export const blogRoutes = new Elysia({ prefix: '/blogs' })
+    .get('/', blogController.getAll, {
+        detail: {
+            summary: 'Get all blogs',
+            tags: ['Blog'],
+        },
+    })
+    .get('/:id', blogController.getOne, {
+        params: t.Object({ id: t.String() }),
+        detail: {
+            summary: 'Get a blog by ID',
+            tags: ['Blog'],
+        },
+    })
+    .post('/', blogController.create, {
+        body: blogController.schema.create,
+        detail: {
+            summary: 'Create a blog',
+            tags: ['Blog'],
+        },
+    })
+    .delete('/:id', blogController.delete, {
+        params: t.Object({ id: t.String() }),
+        detail: {
+            summary: 'Delete a blog',
+            tags: ['Blog'],
+        },
+    })
+    .put('/:id', blogController.update, {
+        params: t.Object({ id: t.String() }),
+        body: blogController.schema.update,
+        detail: {
+            summary: 'Update a blog',
+            tags: ['Blog']
+        }
+    })
+    ;

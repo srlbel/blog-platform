@@ -19,4 +19,8 @@ export class BlogService {
     delete(id: number): Promise<void> {
         return this.repo.delete(id);
     }
+
+    update(id: number, data: Partial<NewBlog>): Promise<Blog | undefined> {
+        return this.repo.update(id, data);
+    }
 }
