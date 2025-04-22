@@ -124,6 +124,10 @@ export const blogRoutes = new Elysia({ prefix: '/blogs', tags: ['Blog'] })
             description: 'Update a blog resource',
             content: { 'application/json': {} },
           },
+          '404': {
+            description: 'Blog not found',
+            content: { 'application/json': {} },
+          },
         },
       },
     },

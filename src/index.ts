@@ -21,14 +21,14 @@ export const app = new Elysia()
         showStartupMessage: true,
         startupMessageFormat: 'simple',
         timestamp: {
-          translateTime: 'yyyy-mm-dd HH:MM:ss'
+          translateTime: 'yyyy-mm-dd HH:MM:ss',
         },
         ip: false,
         logFilePath: './logs/example.log',
         customLogFormat:
           '{now} {level} {duration} {method} {pathname} {status} {message} {ip} {epoch}',
-      }
-    })
+      },
+    }),
   )
   .use(blogRoutes)
   .listen(3000);

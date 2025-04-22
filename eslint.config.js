@@ -10,6 +10,7 @@ export default tseslint.config(
   prettierConfig,
   {
     files: ['**/*.ts'],
+    ignores: ['test/**/*'],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {

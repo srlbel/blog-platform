@@ -3,7 +3,7 @@ import type { Blog, NewBlog } from '../models/Blog';
 import type { IService } from '../interfaces/IService';
 
 export class BlogService implements IService<Blog, NewBlog> {
-  constructor(private repo: BlogRepository) { }
+  constructor(private repo: BlogRepository) {}
 
   getAll(): Promise<Blog[]> {
     return this.repo.getAll();
