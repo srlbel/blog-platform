@@ -2,6 +2,7 @@ import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import prettierPlugin from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
+import stylisticJs from '@stylistic/eslint-plugin-js';
 
 export default tseslint.config(
   eslint.configs.recommended,
@@ -32,10 +33,12 @@ export default tseslint.config(
     },
     plugins: {
       prettier: prettierPlugin,
+      '@stylistic/js': stylisticJs,
     },
     rules: {
       'prettier/prettier': 'error',
       // Optional: Good starter rules for TypeScript projects
+      '@stylistic/js/linebreak-style': ['error', 'unix'],
       '@typescript-eslint/consistent-type-imports': 'warn',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     },

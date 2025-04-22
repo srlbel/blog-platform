@@ -14,3 +14,9 @@ export const blogs = sqliteTable('blogs', {
     .$default(() => new Date().toISOString())
     .$onUpdate(() => new Date().toISOString()),
 });
+
+export const table = {
+  blogs,
+} as const;
+
+export type Table = typeof table;

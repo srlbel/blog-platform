@@ -1,6 +1,9 @@
 import { Elysia, t } from 'elysia';
 import { BlogRepository } from '../repositories/BlogRepository';
 import { BlogService } from '../services/BlogService';
+import { _blog } from '../models/Blog';
+
+const _newBlog = t.Omit(_blog, ['id', 'createdAt', 'updatedAt']);
 
 const blogRepo = new BlogRepository();
 const blogService = new BlogService(blogRepo);
@@ -63,12 +66,7 @@ export const blogRoutes = new Elysia({ prefix: '/blogs', tags: ['Blog'] })
       return blog;
     },
     {
-      body: t.Object({
-        title: t.String(),
-        description: t.Optional(t.String()),
-        slug: t.String(),
-        creator: t.String(),
-      }),
+      body: _newBlog,
       detail: {
         summary: 'Create a blog',
         responses: {
@@ -118,12 +116,7 @@ export const blogRoutes = new Elysia({ prefix: '/blogs', tags: ['Blog'] })
     },
     {
       params: t.Object({ id: t.String() }),
-      body: t.Object({
-        title: t.Optional(t.String()),
-        description: t.Optional(t.String()),
-        slug: t.Optional(t.String()),
-        creator: t.Optional(t.String()),
-      }),
+      body: _newBlog,
       detail: {
         summary: 'Update a blog',
         responses: {
