@@ -1,18 +1,21 @@
-import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import utils from './utils';
 
 export const blogs = sqliteTable('blogs', {
-  id: integer('id').primaryKey({ autoIncrement: true }),
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => utils.createId()),
   title: text('title').notNull(),
   description: text('description'),
   slug: text('slug').notNull().unique(),
   creator: text('creator').notNull(),
   createdAt: text('created_at')
     .notNull()
-    .$default(() => new Date().toISOString()),
+    .$default(() => utils.currentDate()),
   updatedAt: text('updated_at')
     .notNull()
-    .$default(() => new Date().toISOString())
-    .$onUpdate(() => new Date().toISOString()),
+    .$default(() => utils.currentDate())
+    .$onUpdate(() => utils.currentDate()),
 });
 
 export const table = {

@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
-    "migrate": "bunx drizzle-kit push",
+    "db:push": "drizzle-kit push",
     "lint": "bun eslint .",
     "lint:fix": "bun eslint . --fix",
     "format": "bun prettier --write \"**/*.{ts,js,json}\""
@@ -26,5 +26,10 @@
     "eslint-plugin-prettier": "^5.2.6",
     "prettier": "^3.5.3",
     "typescript-eslint": "^8.31.0"
+  },
+  "module": "src/index.ts",
+  "private": true,
+  "peerDependencies": {
+    "typescript": "^5"
   }
 }
