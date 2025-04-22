@@ -1,8 +1,12 @@
 {
   "name": "blog-platform",
+  "type": "module",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
-    "migrate": "bunx drizzle-kit push"
+    "migrate": "bunx drizzle-kit push",
+    "lint": "bun eslint .",
+    "lint:fix": "bun eslint . --fix",
+    "format": "bun prettier --write \"**/*.{ts,js,json}\""
   },
   "dependencies": {
     "@elysiajs/swagger": "^1.2.2",
@@ -11,6 +15,14 @@
     "elysia": "^1.2.25"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.10"
+    "@eslint/js": "^9.25.1",
+    "@types/bun": "^1.2.10",
+    "@typescript-eslint/eslint-plugin": "^8.31.0",
+    "@typescript-eslint/parser": "^8.31.0",
+    "eslint": "^9.25.1",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-prettier": "^5.2.6",
+    "prettier": "^3.5.3",
+    "typescript-eslint": "^8.31.0"
   }
 }

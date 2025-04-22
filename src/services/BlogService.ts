@@ -1,27 +1,27 @@
-import { BlogRepository } from "../repositories/BlogRepository";
-import { Blog, NewBlog } from "../models/Blog";
-import { IService } from "../interfaces/IService";
+import type { BlogRepository } from '../repositories/BlogRepository';
+import type { Blog, NewBlog } from '../models/Blog';
+import type { IService } from '../interfaces/IService';
 
 export class BlogService implements IService<Blog, NewBlog> {
-    constructor(private repo: BlogRepository) { }
+  constructor(private repo: BlogRepository) {}
 
-    getAll(): Promise<Blog[]> {
-        return this.repo.getAll();
-    }
+  getAll(): Promise<Blog[]> {
+    return this.repo.getAll();
+  }
 
-    getOne(id: number): Promise<Blog | undefined> {
-        return this.repo.getById(id);
-    }
+  getOne(id: number): Promise<Blog | undefined> {
+    return this.repo.getById(id);
+  }
 
-    create(data: NewBlog): Promise<Blog> {
-        return this.repo.create(data);
-    }
+  create(data: NewBlog): Promise<Blog> {
+    return this.repo.create(data);
+  }
 
-    delete(id: number): Promise<void> {
-        return this.repo.delete(id);
-    }
+  delete(id: number): Promise<void> {
+    return this.repo.delete(id);
+  }
 
-    update(id: number, data: Partial<NewBlog>): Promise<Blog | undefined> {
-        return this.repo.update(id, data);
-    }
+  update(id: number, data: Partial<NewBlog>): Promise<Blog | undefined> {
+    return this.repo.update(id, data);
+  }
 }
