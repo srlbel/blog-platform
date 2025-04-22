@@ -6,9 +6,11 @@
     "db:push": "drizzle-kit push",
     "lint": "bun eslint .",
     "lint:fix": "bun eslint . --fix",
-    "format": "bun prettier --write \"**/*.{ts,js,json}\""
+    "format": "bun prettier --write \"**/*.{ts,js,json}\"",
+    "test": "bun test"
   },
   "dependencies": {
+    "@elysiajs/eden": "^1.2.0",
     "@elysiajs/swagger": "^1.2.2",
     "drizzle-kit": "^0.31.0",
     "drizzle-orm": "^0.42.0",

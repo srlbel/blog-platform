@@ -3,7 +3,7 @@ import { swagger } from '@elysiajs/swagger';
 import { blogRoutes } from './routes/BlogRoutes';
 import logixlysia from 'logixlysia';
 
-new Elysia()
+export const app = new Elysia()
   .use(
     swagger({
       path: '/swagger',
