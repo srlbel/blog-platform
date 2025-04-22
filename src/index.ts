@@ -1,6 +1,7 @@
 import { Elysia } from 'elysia';
 import { swagger } from '@elysiajs/swagger';
 import { blogRoutes } from './routes/BlogRoutes';
+import logixlysia from 'logixlysia';
 
 new Elysia()
   .use(
@@ -14,7 +15,20 @@ new Elysia()
       },
     }),
   )
+  .use(
+    logixlysia({
+      config: {
+        showStartupMessage: true,
+        startupMessageFormat: 'simple',
+        timestamp: {
+          translateTime: 'yyyy-mm-dd HH:MM:ss'
+        },
+        ip: false,
+        logFilePath: './logs/example.log',
+        customLogFormat:
+          '{now} {level} {duration} {method} {pathname} {status} {message} {ip} {epoch}',
+      }
+    })
+  )
   .use(blogRoutes)
   .listen(3000);
-
-console.log('Listening at http://localhost:3000');
