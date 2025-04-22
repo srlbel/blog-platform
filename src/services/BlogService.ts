@@ -3,13 +3,13 @@ import type { Blog, NewBlog } from '../models/Blog';
 import type { IService } from '../interfaces/IService';
 
 export class BlogService implements IService<Blog, NewBlog> {
-  constructor(private repo: BlogRepository) {}
+  constructor(private repo: BlogRepository) { }
 
   getAll(): Promise<Blog[]> {
     return this.repo.getAll();
   }
 
-  getOne(id: number): Promise<Blog | undefined> {
+  getOne(id: string): Promise<Blog | undefined> {
     return this.repo.getById(id);
   }
 
@@ -17,11 +17,11 @@ export class BlogService implements IService<Blog, NewBlog> {
     return this.repo.create(data);
   }
 
-  delete(id: number): Promise<void> {
+  delete(id: string): Promise<void> {
     return this.repo.delete(id);
   }
 
-  update(id: number, data: Partial<NewBlog>): Promise<Blog | undefined> {
+  update(id: string, data: Partial<NewBlog>): Promise<Blog | undefined> {
     return this.repo.update(id, data);
   }
 }

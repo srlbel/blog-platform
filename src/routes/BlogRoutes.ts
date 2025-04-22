@@ -31,7 +31,7 @@ export const blogRoutes = new Elysia({ prefix: '/blogs', tags: ['Blog'] })
   .get(
     '/:id',
     async ({ params, set }) => {
-      const blog = await blogService.getOne(Number(params.id));
+      const blog = await blogService.getOne(params.id);
 
       if (!blog) {
         set.status = 404;
@@ -81,7 +81,7 @@ export const blogRoutes = new Elysia({ prefix: '/blogs', tags: ['Blog'] })
   .delete(
     '/:id',
     async ({ params, set }) => {
-      await blogService.delete(Number(params.id));
+      await blogService.delete(params.id);
 
       set.status = 204;
       return null;
@@ -102,14 +102,14 @@ export const blogRoutes = new Elysia({ prefix: '/blogs', tags: ['Blog'] })
   .put(
     '/:id',
     async ({ params, body, set }) => {
-      const blogToUpdate = await blogService.getOne(Number(params.id));
+      const blogToUpdate = await blogService.getOne(params.id);
 
       if (!blogToUpdate) {
         set.status = 404;
         return { error: 'blog not found' };
       }
 
-      const updatedBlog = await blogService.update(Number(params.id), body);
+      const updatedBlog = await blogService.update(params.id, body);
 
       set.status = 204;
       return updatedBlog;

@@ -9,7 +9,7 @@ export class BlogRepository implements IRepository<Blog, NewBlog> {
     return db.select().from(blogs);
   }
 
-  async getById(id: number): Promise<Blog | undefined> {
+  async getById(id: string): Promise<Blog | undefined> {
     const result = await db.select().from(blogs).where(eq(blogs.id, id));
     return result[0];
   }
@@ -19,11 +19,11 @@ export class BlogRepository implements IRepository<Blog, NewBlog> {
     return result[0];
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: string): Promise<void> {
     await db.delete(blogs).where(eq(blogs.id, id));
   }
 
-  async update(id: number, data: Partial<NewBlog>): Promise<Blog | undefined> {
+  async update(id: string, data: Partial<NewBlog>): Promise<Blog | undefined> {
     const result = await db
       .update(blogs)
       .set({ ...data })
