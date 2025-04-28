@@ -1,12 +1,8 @@
-To install dependencies:
+Set up process:
 
-```sh
+```bash
 bun install
-```
-
-To run:
-
-```sh
+bun run db:push
 bun run dev
 ```
 
@@ -17,5 +13,5 @@ TODO:
 - ~~Use drizzle typebox to manage elysia's route validation~~
 - Error handling
 - ~~Add testing modules~~
-- Add testing, dev and prod enviroment via .env file
+- ~~Add testing, dev and prod enviroment via .env file~~
 - Add pipelines
