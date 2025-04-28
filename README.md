@@ -1,12 +1,8 @@
-To install dependencies:
+Set up process:
 
-```sh
+```bash
 bun install
-```
-
-To run:
-
-```sh
+bun run db:push
 bun run dev
 ```
 
