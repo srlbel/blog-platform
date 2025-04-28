@@ -1,7 +1,7 @@
 {
   "name": "blog-platform",
   "type": "module",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "scripts": {
     "dev": "NODE_ENV=dev bun run --hot src/index.ts",
     "prod": "NODE_ENV=prod bun run src/index.ts",
