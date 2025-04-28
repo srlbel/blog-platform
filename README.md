@@ -13,5 +13,5 @@ TODO:
 - ~~Use drizzle typebox to manage elysia's route validation~~
 - Error handling
 - ~~Add testing modules~~
-- Add testing, dev and prod enviroment via .env file
+- ~~Add testing, dev and prod enviroment via .env file~~
 - Add pipelines

@@ -3,16 +3,19 @@
   "type": "module",
   "version": "0.1.0",
   "scripts": {
-    "dev": "bun run --hot src/index.ts",
-    "db:push": "drizzle-kit push",
+    "dev": "NODE_ENV=dev bun run --hot src/index.ts",
+    "prod": "NODE_ENV=prod bun run src/index.ts",
+    "test": "NODE_ENV=test bun test",
+    "db:push": "NODE_ENV=dev drizzle-kit push",
+    "db:push:test": "NODE_ENV=test drizzle-kit push",
     "lint": "bun eslint .",
     "lint:fix": "bun eslint . --fix",
-    "format": "bun prettier --write \"**/*.{ts,js,json}\"",
-    "test": "bun test"
+    "format": "bun prettier --write \"**/*.{ts,js,json}\""
   },
   "dependencies": {
     "@elysiajs/eden": "^1.2.0",
     "@elysiajs/swagger": "^1.2.2",
+    "dotenv": "^16.5.0",
     "drizzle-kit": "^0.31.0",
     "drizzle-orm": "^0.42.0",
     "drizzle-typebox": "^0.3.2",

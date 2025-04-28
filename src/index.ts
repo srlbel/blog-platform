@@ -32,3 +32,5 @@ export const app = new Elysia()
   )
   .use(blogRoutes)
   .listen(3000);
+
+console.log(`--- ENV: ${Bun.env.NODE_ENV} ---`);
