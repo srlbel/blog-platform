@@ -6,7 +6,7 @@
     "dev": "NODE_ENV=dev bun run --hot src/index.ts",
     "prod": "NODE_ENV=prod bun run src/index.ts",
     "test": "NODE_ENV=test bun test",
-    "build": "bun build src/index.ts --outdir ./build --target bun",
+    "build": "NODE_ENV=prod bun build src/index.ts --outdir ./build --target bun",
     "db:push": "NODE_ENV=dev drizzle-kit push",
     "db:push:test": "NODE_ENV=test drizzle-kit push",
     "db:push:prod": "NODE_ENV=prod drizzle-kit push",
