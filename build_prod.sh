@@ -4,8 +4,8 @@ bun install
 
 FILE1="./test.db"
 if [ ! -f "$FILE1" ]; then
-    echo "File $FILE1 exists. Creating it."
-    Bun run db:push:test
+    echo "File $FILE1 DON'T exists. Creating it."
+    bun run db:push:test
 fi
 
 echo "Running tests..."
@@ -17,7 +17,7 @@ fi
 
 FILE2="./prod.db"
 if [ ! -f "$FILE2" ]; then
-    echo "File $FILE2 exists. Running command..."
+    echo "File $FILE2 DONT'T exists. Creating it."
     bun run db:push:prod
 fi
 
