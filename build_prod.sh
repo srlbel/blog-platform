@@ -2,12 +2,6 @@
 
 bun install
 
-FILE1="./test.db"
-if [ ! -f "$FILE1" ]; then
-    echo "File $FILE1 DON'T exists. Creating it."
-    bun run db:push:test
-fi
-
 echo "Running tests..."
 bun run test
 if [ $? -ne 0 ]; then
