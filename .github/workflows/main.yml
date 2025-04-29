@@ -1,0 +1,25 @@
+name: Run build on Master push
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Give permission to run script
+        run: chmod +x ./build_prod.sh
+
+      - name: Run build
+        run: ./build_prod.sh
