@@ -3,6 +3,8 @@ import { swagger } from '@elysiajs/swagger';
 import { blogRoutes } from './routes/BlogRoutes';
 import logixlysia from 'logixlysia';
 
+const PORT = process.env.PORT || 3000;
+
 export const app = new Elysia()
   .use(
     swagger({
@@ -31,6 +33,6 @@ export const app = new Elysia()
     }),
   )
   .use(blogRoutes)
-  .listen(Bun.env.PORT!);
+  .listen(PORT);
 
-console.log(`--- ENV: ${Bun.env.NODE_ENV} ---`);
+console.log(`--- ENV: ${process.env.NODE_ENV} ---`);

@@ -5,6 +5,6 @@ export default defineConfig({
   schema: './src/db/schema.ts',
   dialect: 'sqlite',
   dbCredentials: {
-    url: Bun.env.DB_FILE_NAME || 'test.db',
+    url: process.env.DB_FILE_NAME || 'test.db',
   },
 });
