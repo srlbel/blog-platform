@@ -6,7 +6,7 @@
     "dev": "NODE_ENV=dev DB_FILE_NAME=dev.db bun run --hot src/index.ts",
     "prod": "NODE_ENV=prod DB_FILE_NAME=prod.db bun run src/index.ts",
     "test": "NODE_ENV=test DB_FILE_NAME=test.db bun test",
-    "build": "NODE_ENV=prod DB_FILE_NAME=prod.db bun build src/index.ts --outdir ./build --target bun",
+    "build": "NODE_ENV=prod DB_FILE_NAME=prod.db bun build src/index.ts --outdir ./server --target bun --compile --minify-whitespace --minify-syntax",
     "db:push": "NODE_ENV=dev DB_FILE_NAME=dev.db drizzle-kit push",
     "db:push:test": "NODE_ENV=test DB_FILE_NAME=test.db drizzle-kit push",
     "db:push:prod": "NODE_ENV=prod DB_FILE_NAME=prod.db drizzle-kit push",
