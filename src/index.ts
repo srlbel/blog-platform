@@ -1,6 +1,7 @@
 import { Elysia } from 'elysia';
 import { swagger } from '@elysiajs/swagger';
 import { blogRoutes } from './routes/BlogRoutes';
+import { staticPlugin } from '@elysiajs/static';
 import logixlysia from 'logixlysia';
 
 const PORT = process.env.PORT || 3000;
@@ -15,6 +16,13 @@ export const app = new Elysia()
           version: '1.0.0',
         },
       },
+    }),
+  )
+  .use(
+    staticPlugin({
+      prefix: '/',
+      assets: './public',
+      indexHTML: true,
     }),
   )
   .use(

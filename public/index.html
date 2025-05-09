@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Blog Platform</title>
+    <style>
+      :root {
+        --primary: #4f46e5;
+        --primary-light: #6366f1;
+        --danger: #dc2626;
+        --bg: #f9fafb;
+        --text: #111827;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        padding: 2em;
+        line-height: 1.6;
+      }
+
+      h1 {
+        color: var(--primary);
+      }
+
+      form {
+        background: white;
+        padding: 1.5em;
+        border-radius: 0.5em;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin-bottom: 2em;
+      }
+
+      form input {
+        display: block;
+        width: 100%;
+        padding: 0.75em;
+        margin-bottom: 1em;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375em;
+        font-size: 1em;
+      }
+
+      form button {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 0.75em 1.5em;
+        border-radius: 0.375em;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+
+      form button:hover {
+        background: var(--primary-light);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 0.5em;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      th,
+      td {
+        padding: 1em;
+        text-align: left;
+        border-bottom: 1px solid #f3f4f6;
+      }
+
+      th {
+        background-color: #f3f4f6;
+        color: #374151;
+      }
+
+      td:last-child {
+        display: flex;
+        gap: 0.5em;
+      }
+
+      button.delete {
+        background-color: var(--danger);
+      }
+
+      button.edit {
+        background-color: #10b981;
+      }
+
+      button.delete:hover {
+        background-color: #b91c1c;
+      }
+
+      button.edit:hover {
+        background-color: #059669;
+      }
+
+      @media (max-width: 600px) {
+        td,
+        th {
+          font-size: 0.9em;
+          padding: 0.75em;
+        }
+
+        form {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Blog Platform</h1>
+
+    <form id="blog-form">
+      <h2 id="form-title">Create a New Blog</h2>
+      <input type="hidden" id="blog-id" />
+      <input type="text" id="title" placeholder="Title" required />
+      <input type="text" id="description" placeholder="Description" required />
+      <input type="text" id="slug" placeholder="Slug" required />
+      <input type="text" id="creator" placeholder="Creator" required />
+      <button type="submit" id="form-button">Add Blog</button>
+    </form>
+
+    <div id="table-container">Loading...</div>
+
+    <script>
+      var url = '/blogs';
+      var blogForm = document.getElementById('blog-form');
+      var tableContainer = document.getElementById('table-container');
+      var blogIdField = document.getElementById('blog-id');
+      var formTitle = document.getElementById('form-title');
+      var formButton = document.getElementById('form-button');
+
+      function fetchData() {
+        fetch(url)
+          .then(function (res) {
+            if (!res.ok) throw new Error('Failed to fetch');
+            return res.json();
+          })
+          .then(function (data) {
+            renderTable(Array.isArray(data) ? data : [data]);
+          })
+          .catch(function (err) {
+            tableContainer.textContent = 'Error: ' + err.message;
+          });
+      }
+
+      function renderTable(data) {
+        tableContainer.innerHTML = '';
+
+        if (data.length === 0) {
+          tableContainer.textContent = 'No blogs available.';
+          return;
+        }
+
+        var table = document.createElement('table');
+        var thead = document.createElement('thead');
+        var tbody = document.createElement('tbody');
+
+        var headers = Object.keys(data[0]).concat('Actions');
+        var headerRow = document.createElement('tr');
+
+        for (var i = 0; i < headers.length; i++) {
+          var th = document.createElement('th');
+          th.textContent = headers[i];
+          headerRow.appendChild(th);
+        }
+        thead.appendChild(headerRow);
+
+        for (var i = 0; i < data.length; i++) {
+          var blog = data[i];
+          var row = document.createElement('tr');
+
+          for (var j = 0; j < headers.length; j++) {
+            var key = headers[j];
+            var td = document.createElement('td');
+
+            if (key === 'Actions') {
+              var deleteBtn = document.createElement('button');
+              deleteBtn.className = 'delete';
+              deleteBtn.textContent = 'Delete';
+              deleteBtn.onclick = createDeleteHandler(blog.id);
+
+              var editBtn = document.createElement('button');
+              editBtn.className = 'edit';
+              editBtn.textContent = 'Edit';
+              editBtn.onclick = createEditHandler(blog);
+
+              td.appendChild(editBtn);
+              td.appendChild(deleteBtn);
+            } else {
+              if (key === 'slug') {
+                const a = document.createElement('a');
+                a.href = blog[key].startsWith('http') ? blog[key] : '/' + blog[key];
+                a.textContent = blog[key];
+                a.target = '_blank';
+                a.style.color = 'var(--primary)';
+                a.style.textDecoration = 'underline';
+                td.appendChild(a);
+              } else {
+                td.textContent = blog[key];
+              }
+            }
+
+            row.appendChild(td);
+          }
+
+          tbody.appendChild(row);
+        }
+
+        table.appendChild(thead);
+        table.appendChild(tbody);
+        tableContainer.appendChild(table);
+      }
+
+      function createDeleteHandler(id) {
+        return function () {
+          fetch(url + '/' + id, { method: 'DELETE' })
+            .then(function (res) {
+              if (!res.ok) throw new Error('Delete failed');
+              fetchData();
+            })
+            .catch(function (e) {
+              alert('Error: ' + e.message);
+            });
+        };
+      }
+
+      function createEditHandler(blog) {
+        return function () {
+          blogIdField.value = blog.id;
+          document.getElementById('title').value = blog.title;
+          document.getElementById('description').value = blog.description;
+          document.getElementById('slug').value = blog.slug;
+          document.getElementById('creator').value = blog.creator;
+
+          formTitle.textContent = 'Edit Blog';
+          formButton.textContent = 'Update Blog';
+        };
+      }
+
+      blogForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var id = blogIdField.value.trim();
+        var title = document.getElementById('title').value.trim();
+        var description = document.getElementById('description').value.trim();
+        var slug = document.getElementById('slug').value.trim();
+        var creator = document.getElementById('creator').value.trim();
+
+        if (!title || !description || !slug || !creator) return;
+
+        var method = id ? 'PUT' : 'POST';
+        var targetUrl = id ? url + '/' + id : url;
+
+        fetch(targetUrl, {
+          method: method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, description, slug, creator }),
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error('Failed to save blog');
+            blogForm.reset();
+            blogIdField.value = '';
+            formTitle.textContent = 'Create a New Blog';
+            formButton.textContent = 'Add Blog';
+            fetchData();
+          })
+          .catch(function (e) {
+            alert('Error: ' + e.message);
+          });
+      });
+
+      fetchData();
+    </script>
+  </body>
+</html>
