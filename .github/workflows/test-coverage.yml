@@ -25,5 +25,8 @@ jobs:
       - name: Run tests
         run: bun run test
 
+      - name: Run test Coverage
+        run: bun run test:coverage
+
       - name: Run TypeScript Coverage
         run: bun run test --coverage
