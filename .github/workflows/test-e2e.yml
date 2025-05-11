@@ -22,8 +22,11 @@ jobs:
       - name: Install Bun dependencies
         run: bun install
 
-      - name: 🚀 Start Bun app (background)
-        run: bun dev &
+      - name: Start local db
+        run: bun run db:push
+
+      - name: Start Bun app (background)
+        run: bun run dev &
         env:
           PORT: 3000
 
