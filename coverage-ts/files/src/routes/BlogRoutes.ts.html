@@ -1,0 +1,152 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>BlogRoutes.ts</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">src/routes/BlogRoutes.ts</td><td class="">100.00%</td><td class="">80%</td><td class="">128</td><td class="">128</td><td class="">0</td></tr></tbody></table><textarea id="editor" readOnly="" style="margin-top:3em">import { Elysia, t } from &#x27;elysia&#x27;;
+import { BlogRepository } from &#x27;../repositories/BlogRepository&#x27;;
+import { BlogService } from &#x27;../services/BlogService&#x27;;
+import { _blog } from &#x27;../models/Blog&#x27;;
+
+const _newBlog = t.Omit(_blog, [&#x27;id&#x27;, &#x27;createdAt&#x27;, &#x27;updatedAt&#x27;]);
+
+const blogRepo = new BlogRepository();
+const blogService = new BlogService(blogRepo);
+
+export const blogRoutes = new Elysia({ prefix: &#x27;/blogs&#x27;, tags: [&#x27;Blog&#x27;] })
+  .get(
+    &#x27;/&#x27;,
+    async () =&gt; {
+      const blogs = await blogService.getAll();
+
+      return blogs;
+    },
+    {
+      detail: {
+        summary: &#x27;Get all blogs&#x27;,
+        responses: {
+          &#x27;200&#x27;: {
+            description: &#x27;Get all blogs in the resource&#x27;,
+            content: { &#x27;application/json&#x27;: {} },
+          },
+        },
+      },
+    },
+  )
+  .get(
+    &#x27;/:id&#x27;,
+    async ({ params, set }) =&gt; {
+      const blog = await blogService.getOne(params.id);
+
+      if (!blog) {
+        set.status = 404;
+        return { error: &#x27;Not found&#x27; };
+      }
+
+      return blog;
+    },
+    {
+      params: t.Object({ id: t.String() }),
+      detail: {
+        summary: &#x27;Get a blog by ID&#x27;,
+        responses: {
+          &#x27;200&#x27;: {
+            description: &#x27;Get a single blog in the resource&#x27;,
+            content: { &#x27;application/json&#x27;: {} },
+          },
+          &#x27;404&#x27;: {
+            description: &#x27;Blog not found&#x27;,
+            content: { &#x27;application/json&#x27;: {} },
+          },
+        },
+      },
+    },
+  )
+  .post(
+    &#x27;/&#x27;,
+    async ({ body, set }) =&gt; {
+      const blog = await blogService.create(body);
+
+      set.status = 201;
+      return blog;
+    },
+    {
+      body: _newBlog,
+      detail: {
+        summary: &#x27;Create a blog&#x27;,
+        responses: {
+          &#x27;201&#x27;: {
+            description: &#x27;Created a blog resource&#x27;,
+            content: { &#x27;application/json&#x27;: {} },
+          },
+        },
+      },
+    },
+  )
+  .delete(
+    &#x27;/:id&#x27;,
+    async ({ params, set }) =&gt; {
+      await blogService.delete(params.id);
+
+      set.status = 204;
+      return null;
+    },
+    {
+      params: t.Object({ id: t.String() }),
+      detail: {
+        summary: &#x27;Delete a blog&#x27;,
+        responses: {
+          &#x27;204&#x27;: {
+            description: &#x27;Deleted a blog resource&#x27;,
+            content: { &#x27;application/json&#x27;: {} },
+          },
+        },
+      },
+    },
+  )
+  .put(
+    &#x27;/:id&#x27;,
+    async ({ params, body, set }) =&gt; {
+      const blogToUpdate = await blogService.getOne(params.id);
+
+      if (!blogToUpdate) {
+        set.status = 404;
+        return { error: &#x27;blog not found&#x27; };
+      }
+
+      const updatedBlog = await blogService.update(params.id, body);
+
+      set.status = 204;
+      return updatedBlog;
+    },
+    {
+      params: t.Object({ id: t.String() }),
+      body: _newBlog,
+      detail: {
+        summary: &#x27;Update a blog&#x27;,
+        responses: {
+          &#x27;204&#x27;: {
+            description: &#x27;Update a blog resource&#x27;,
+            content: { &#x27;application/json&#x27;: {} },
+          },
+          &#x27;404&#x27;: {
+            description: &#x27;Blog not found&#x27;,
+            content: { &#x27;application/json&#x27;: {} },
+          },
+        },
+      },
+    },
+  );
+</textarea><pre id="annotations" style="display:none">[]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sun, 11 May 2025 20:01:02 GMT</p>
+    </body>
+  </html>
+  

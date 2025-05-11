@@ -1,0 +1,93 @@
+{
+  "fileCounts": {
+    "cypress.config.ts": {
+      "correctCount": 12,
+      "totalCount": 12
+    },
+    "drizzle.config.ts": {
+      "correctCount": 10,
+      "totalCount": 10
+    },
+    "package.json": {
+      "correctCount": 0,
+      "totalCount": 0
+    },
+    "tsconfig.json": {
+      "correctCount": 0,
+      "totalCount": 0
+    },
+    "src/db/index.ts": {
+      "correctCount": 11,
+      "totalCount": 11
+    },
+    "src/db/utils.ts": {
+      "correctCount": 10,
+      "totalCount": 10
+    },
+    "src/db/schema.ts": {
+      "correctCount": 43,
+      "totalCount": 43
+    },
+    "src/models/Blog.ts": {
+      "correctCount": 13,
+      "totalCount": 13
+    },
+    "src/interfaces/IRepository.ts": {
+      "correctCount": 29,
+      "totalCount": 29
+    },
+    "src/repositories/BlogRepository.ts": {
+      "correctCount": 76,
+      "totalCount": 76
+    },
+    "src/interfaces/IService.ts": {
+      "correctCount": 29,
+      "totalCount": 29
+    },
+    "src/services/BlogService.ts": {
+      "correctCount": 52,
+      "totalCount": 52
+    },
+    "src/routes/BlogRoutes.ts": {
+      "correctCount": 128,
+      "totalCount": 128
+    },
+    "src/index.ts": {
+      "correctCount": 42,
+      "totalCount": 42
+    },
+    "test/blog.test.ts": {
+      "correctCount": 225,
+      "totalCount": 225
+    },
+    "test/view.cy.ts": {
+      "correctCount": 98,
+      "totalCount": 98
+    },
+    "cypress/e2e/view.cy.ts": {
+      "correctCount": 98,
+      "totalCount": 98
+    },
+    "cypress/fixtures/example.json": {
+      "correctCount": 0,
+      "totalCount": 0
+    },
+    "cypress/reports/mochawesome.json": {
+      "correctCount": 0,
+      "totalCount": 0
+    },
+    "cypress/support/commands.ts": {
+      "correctCount": 0,
+      "totalCount": 0
+    },
+    "cypress/support/e2e.ts": {
+      "correctCount": 0,
+      "totalCount": 0
+    }
+  },
+  "anys": [],
+  "percentage": 100,
+  "total": 876,
+  "covered": 876,
+  "uncovered": 0
+}

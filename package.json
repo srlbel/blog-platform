@@ -10,6 +10,7 @@
     "cypress:open": "bunx cypress open",
     "cypress:run": "bunx cypress run",
     "cypress:report": "bunx mochawesome-merge cypress/reports/*.json -o cypress/reports/report.json && bunx marge cypress/reports/report.json -f report -o cypress/reports",
+    "ts-coverage": "typescript-coverage-report",
     "db:push": "NODE_ENV=dev DB_FILE_NAME=dev.db drizzle-kit push",
     "db:push:test": "NODE_ENV=test DB_FILE_NAME=test.db drizzle-kit push",
     "db:push:prod": "NODE_ENV=prod DB_FILE_NAME=prod.db drizzle-kit push",
@@ -41,6 +42,10 @@
     "mochawesome-merge": "^5.0.0",
     "mochawesome-report-generator": "^6.2.0",
     "prettier": "^3.5.3",
+    "react": "^19.1.0",
+    "react-dom": "latest",
+    "semantic-ui-react": "^2.1.5",
+    "typescript-coverage-report": "^1.1.1",
     "typescript-eslint": "^8.31.0"
   },
   "module": "src/index.ts",
