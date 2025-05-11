@@ -28,5 +28,8 @@ jobs:
       - name: Run test Coverage
         run: bun run test:coverage
 
-      - name: Run TypeScript Coverage
-        run: bun run test --coverage
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/ 
