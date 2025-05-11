@@ -1,0 +1,45 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install Bun dependencies
+        run: bun install
+
+      - name: Start local db
+        run: bun run db:push
+
+      - name: Start Bun app (background)
+        run: bun run dev &
+        env:
+          PORT: 3000
+
+      - name: Run Cypress tests
+        run: bunx cypress run
+
+      - name: Generate Cypress HTML report
+        run: |
+          bunx mochawesome-merge cypress/reports/*.json -o cypress/reports/report.json
+          bunx marge cypress/reports/report.json -f report -o cypress/reports
+
+      - name: Upload HTML report artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-report
+          path: cypress/reports/report.html
