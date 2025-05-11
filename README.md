@@ -14,4 +14,4 @@ TODO:
 - Error handling
 - ~~Add testing modules~~
 - ~~Add testing, dev and prod enviroment via .env file~~
-- Add pipelines
+- ~~Add pipelines~~

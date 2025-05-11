@@ -26,10 +26,4 @@ jobs:
         run: bun run test
 
       - name: Run TypeScript Coverage
-        run: bun run ts-coverage
-
-      - name: Upload coverage artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ts-coverage-report
-          path: coverage-ts/*.html
+        run: bun run test --coverage
