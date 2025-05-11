@@ -10,6 +10,9 @@ COPY . .
 # Install dependencies
 RUN bun install
 
+# Add sqlite
+RUN apk add --no-cache python3 make g++ sqlite-dev
+
 # Generate prod.db (SQLite) using drizzle
 ENV NODE_ENV=prod
 ENV DB_FILE_NAME=prod.db
