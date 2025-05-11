@@ -3,49 +3,56 @@ FROM oven/bun:1 as builder
 
 WORKDIR /app
 
-# Add required build dependencies for better-sqlite3
-RUN apk add --no-cache python3 make g++ sqlite-dev
+# Install build dependencies for better-sqlite3
+RUN apt-get update && \
+    apt-get install -y python3 make g++ sqlite3 libsqlite3-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copy source files
+# Copy project files
 COPY . .
 
-# Install dependencies (make sure better-sqlite3 is in package.json)
+# Install dependencies
 RUN bun install
 
-# Set environment for DB generation and build
+# Set environment for DB creation and build
 ENV NODE_ENV=prod
 ENV DB_FILE_NAME=prod.db
 
-# Create the SQLite DB schema
+# Push the schema to create the SQLite DB
 RUN bun run db:push:prod
 
-# Compile Bun server into a native binary
+# Compile your Bun app
 RUN bun run build
 
-# Stage 2: Minimal runtime image
-FROM alpine:3.19
+# Stage 2: Minimal runtime image (Debian-based)
+FROM debian:bullseye-slim
 
 # Add non-root user
-RUN addgroup -S app && adduser -S app -G app
+RUN addgroup --system app && adduser --system --ingroup app app
 
 WORKDIR /app
 
-# Copy compiled server and DB from builder
+# Install SQLite runtime (for reading the .db file)
+RUN apt-get update && \
+    apt-get install -y sqlite3 && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy compiled server and SQLite DB from builder
 COPY --from=builder /app/server /app/server
 COPY --from=builder /app/prod.db /app/prod.db
 
-# Set permissions (optional but good practice)
+# Set permissions
 RUN chown -R app:app /app
 
 # Switch to non-root user
 USER app
 
-# Set runtime env vars
+# Set runtime environment variables
 ENV NODE_ENV=prod
 ENV DB_FILE_NAME=prod.db
 
-# Expose port (change if needed)
+# Expose the app port
 EXPOSE 3000
 
-# Run the server binary
+# Start the server
 CMD ["./server"]
