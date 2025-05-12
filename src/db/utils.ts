@@ -1,5 +1,5 @@
 const createId = (): string => {
-  return Bun.randomUUIDv7();
+  return crypto.randomUUID();
 };
 
 const currentDate = (): string => {
