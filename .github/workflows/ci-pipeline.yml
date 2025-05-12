@@ -49,6 +49,8 @@ jobs:
         run: bun run dev &
         env:
           PORT: 3000
+          LIBSQL_URL: ${{ secrets.TURSO_CONNECTION_URL }}
+          LIBSQL_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
 
       - name: Run Cypress tests
         run: bunx cypress run
