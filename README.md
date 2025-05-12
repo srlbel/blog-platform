@@ -2,7 +2,6 @@ Set up process:
 
 ```bash
 bun install
-bun run db:push
 bun run dev
 ```
 
