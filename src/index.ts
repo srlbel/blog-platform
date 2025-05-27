@@ -3,10 +3,12 @@ import { swagger } from '@elysiajs/swagger';
 import { blogRoutes } from './routes/BlogRoutes';
 import { staticPlugin } from '@elysiajs/static';
 import logixlysia from 'logixlysia';
+import { prometheusPlugin } from './services/PrometheuService';
 
 const PORT = process.env.PORT || 3000;
 
 export const app = new Elysia()
+  .use(prometheusPlugin)
   .use(
     swagger({
       path: '/swagger',
@@ -35,8 +37,7 @@ export const app = new Elysia()
         },
         ip: true,
         logFilePath: './logs/example.log',
-        customLogFormat:
-          '{now} {level} {duration} {method} {pathname} {status} {message} {ip}',
+        customLogFormat: '{now} {level} {duration} {method} {pathname} {status} {message} {ip}',
       },
     }),
   )
