@@ -33,10 +33,10 @@ export const app = new Elysia()
         timestamp: {
           translateTime: 'yyyy-mm-dd HH:MM:ss',
         },
-        ip: false,
+        ip: true,
         logFilePath: './logs/example.log',
         customLogFormat:
-          '{now} {level} {duration} {method} {pathname} {status} {message} {ip} {epoch}',
+          '{now} {level} {duration} {method} {pathname} {status} {message} {ip}',
       },
     }),
   )
